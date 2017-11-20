@@ -1,4 +1,4 @@
-//PAT-¼×¼¶-1006 Sign In and Sign Out 
+//PAT-ç”²çº§-1006 Sign In and Sign Out 
 #include<iostream>
 #include<string>
 #include<cstring>
