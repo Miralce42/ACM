@@ -1,43 +1,41 @@
 #include<iostream>
-#include<map>
-#include<vector>
 #include<algorithm>
 #include<string>
-#include<cstring>
+#include<vector>
+#include<map>
 
 using namespace std;
 
-typedef pair<string, int> P;
+map<string, int> words;
+vector<pair<string, int>> list;
 
-int cmp(const P x, const P y) {//编写排序方法
-	return x.second > y.second;
+int cmp(const pair<string, int> &a, const pair<string, int> &b) {
+	if (a.second == b.second) {
+		a.first > b.first;
+	}
+	return a.second > b.second;
 }
 
 int main()
 {
-	map<string,int> w_Map;
-	string word;
-	while (cin >> word) {	    //读取文章
-		char letter = word[word.length() - 1];
-		if (letter == ',' || letter == '.') {	//提取单词
-			word.erase(word.length() - 1, 1);
+	string str;
+	while (cin >> str && str != "") {
+		int last = str.length() - 1;
+		if (str[last] == ',' || str[last] == '.') {
+			str = str.substr(0, last);
 		}
-		if (!w_Map.count(word)) w_Map[word] = 0;
-		w_Map[word]++;
+		if (words.count(str) == 0) words[str] = 0;
+		words[str]++;
 	}
-	//由于map不能直接使用value排序，
-	//需要将map中的key和value分别存放在一个pair类型的vector中，
-	vector<P> pair_vec;
-	for (map<string, int>::iterator it = w_Map.begin(); it != w_Map.end(); it++) {
-		pair_vec.push_back(make_pair(it->first, it->second));
+
+	for (map<string, int>::iterator iter = words.begin(); iter != words.end(); iter++) {
+		list.push_back(make_pair(iter->first, iter->second));
 	}
-	//然后利用vector的sort函数排序
-	sort(pair_vec.begin(), pair_vec.end(), cmp);
-	//最后输出前十个
-	int cnt = 10;
-	for (vector<P>::iterator vec_it = pair_vec.begin(); vec_it != pair_vec.end(); vec_it++) {
-		cout << vec_it->first << " " << vec_it->second << endl;
-		if (--cnt == 0) break;
+
+	sort(list.begin(), list.end(),cmp);
+
+	for (int i = 0; i < 10; i++) {
+		cout << list[i].first << " " << list[i].second << endl;
 	}
 	return 0;
 }
